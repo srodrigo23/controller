@@ -19,5 +19,3 @@ class CameraLauncher:
         self.cmd.add_command(f"source {cam_env_path}")
         self.cmd.add_command(f"python {cam_sys_path} -p {s.video1}")
         self.cmd_exec.execute(self.cmd.get_command())
-        
-CameraLauncher('vi')
