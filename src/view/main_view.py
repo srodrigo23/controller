@@ -15,7 +15,7 @@ class MainView(tk.Tk):
         self.setup_panel_cameras()
             
     def setup(self):
-        self.title("Monitor de Cámaras")
+        self.title("Monitor de Camaras")
         self.container = Frame(self)
         self.set_dimension(1400, 550)
         self.container.pack(side='top', fill='both', expand=True)
@@ -28,7 +28,7 @@ class MainView(tk.Tk):
         self.panels_cameras = []
         for i in range(self.num_cams):
             num_camera = i+1
-            self.panels_cameras.append(FrameCamera(self.container, self.controller,id_camera=i, text=f'Camera {num_camera}'))
+            self.panels_cameras.append(FrameCamera(self.container, self.controller,id_camera=i, text=f"Camera { num_camera }"))
             self.panels_cameras[i].pack(side='left', fill='both', expand=1, padx=5, pady=5)
     
     def set_dimension(self, w_width, w_height):

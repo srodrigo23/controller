@@ -1,5 +1,6 @@
 from threading import Thread
-import sys, cv2, time, imutils
+from utils import resize
+import sys, cv2, time
 
 if sys.version_info >= (3, 0):
     from queue import Queue
@@ -37,7 +38,7 @@ class VideoReader:
             while True:
                 ret, frame = cap.read()
                 if ret:
-                    frame = imutils.resize(frame, width=320)
+                    frame = resize(frame, width=320)
                     self.add_frame_to_all(frame)
                 else:
                     break

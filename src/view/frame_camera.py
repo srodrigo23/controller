@@ -20,8 +20,12 @@ class FrameCamera(LabelFrame):
                                      state='readonly', 
                                      values=self.controller.get_list_videos())
         self.video_source.current(0)
-        self.video_source.pack(side='top', fill='x', padx=10)
-        frm_source.pack(side='top', fill='both', expand=1, padx=5, pady=5)
+        self.video_source.pack(side='top', 
+                            #    fill='x', 
+                               padx=10)
+        frm_source.pack(side='top', 
+                        # fill='both', 
+                        expand=1, padx=5, pady=5)
     
     def setup_buttons(self):
         frm_buttons = LabelFrame(self, text="Controles")
