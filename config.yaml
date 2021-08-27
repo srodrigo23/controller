@@ -1,0 +1,20 @@
+num_cams: 3
+resolution: 320, 270
+
+host_address: 127.0.0.1
+port: 9000
+
+videos_folder_name : videos
+camera_folder_name : camera
+server_folder_name : server
+
+src_folder_name : src
+
+path_venv:
+  - .venv
+  - bin
+  - activate
+
+default_video: empty_video.mp4
+relative_path: ../..
+main_file: main.py

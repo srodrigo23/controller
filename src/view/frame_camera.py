@@ -16,9 +16,10 @@ class FrameCamera(LabelFrame):
         
     def setup_source_video(self):
         frm_source = LabelFrame(self, text="Fuente")
+        videos, path = self.controller.get_videos()
         self.video_source = Combobox(frm_source, 
                                      state='readonly', 
-                                     values=self.controller.get_list_videos())
+                                     values=videos)
         self.video_source.current(0)
         self.video_source.pack(side='top', 
                             #    fill='x', 
