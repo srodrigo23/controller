@@ -1,20 +1,17 @@
-num_cams: 3
-resolution: 320, 270
-
+camera_folder_name: camera
+default_video: empty_video.mp4
 host_address: 127.0.0.1
+
+num_cams: 4
+path_venv:
+- .venv
+- bin
+- activate
 port: 9000
 
-videos_folder_name : videos
-camera_folder_name : camera
-server_folder_name : server
-
-src_folder_name : src
-
-path_venv:
-  - .venv
-  - bin
-  - activate
-
-default_video: empty_video.mp4
 relative_path: ../..
-main_file: main.py
+
+system_path: /Users/sergiorodrigo/Documents/tesis/code
+server_folder_name: server
+videos_folder_name: videos
+controller_name: controller

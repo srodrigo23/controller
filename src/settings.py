@@ -36,11 +36,7 @@ class Settings():
     def get_system_path(self, sys_name):
         sys_path = self.get_sys_path()
         folder_name = self.data[f'{sys_name}_folder_name']
-
-        src = self.data['src_folder_name']
-        main = self.data['main_file']
-
-        return os.path.sep.join([sys_path, folder_name, src, main]), os.path.sep.join([sys_path, folder_name] + self.data['path_venv'])
+        return os.path.sep.join([sys_path, folder_name])
     
     def get_system_camera_path(self):
         return self.get_system_path('camera')
