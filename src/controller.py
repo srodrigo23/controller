@@ -3,7 +3,6 @@ from settings import Settings
 from video_reader import VideoReader
 
 from launcher import launch_server
-# from launcher import kill_process
 
 import time
 import os, signal
@@ -27,11 +26,12 @@ class Controller:
     def run_server(self):
         sys_path = self.settings.get_system_server_path()
         self.process_server = launch_server(sys_path)
+        print(self.process_server.pid)
     
     def kill_server(self):
         # print(self.process_server.poll)
-        
-        os.kill(self.process_server.pid, signal.SIGTERM)
+        # print(f'to kill {self.process_server.pid}')
+        os.kill(self.process_server.pid + 1, signal.SIGTERM)
         # self.process_server.terminate()
         # self.process_server.kill()
         # print(self.process_server.poll)
