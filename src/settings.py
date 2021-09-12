@@ -49,3 +49,12 @@ class Settings():
     
     def get_empty_video(self):
         return os.path.sep.join([self.get_videos_path(), self.data['default_video']])
+    
+    def get_bg_color(self):
+        return self.data['color_bg']
+    
+    def get_btn_on_color(self):
+        return self.data['color_btn_on']
+    
+    def get_btn_off_color(self):
+        return self.data['color_btn_off']

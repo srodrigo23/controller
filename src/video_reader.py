@@ -17,7 +17,7 @@ class VideoReader:
         self.setup_frame_queues()
     
     def setup_frame_queues(self):
-        for i in range(self.num_queues):
+        for _ in range(self.num_queues):
             self.frame_queues.append(Queue(maxsize=32))
     
     def add_frame_to_all(self, frame):
@@ -42,6 +42,8 @@ class VideoReader:
                     self.add_frame_to_all(frame)
                 else:
                     break
+                time.sleep(0.2)
+            time.sleep(0.2)
     
     def update(self):
         while self.source.isOpened():

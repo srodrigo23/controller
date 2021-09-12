@@ -1,8 +1,8 @@
 import tkinter as tk
-from tkinter import Frame
+from tkinter import Frame, LabelFrame
 
-from .control_panel import ControlPanel
-from .frame_camera import FrameCamera
+from .server_panel import ServerPanel
+from .frame_monitor import FrameMonitor
 
 class MainView(tk.Tk):
 
@@ -11,25 +11,31 @@ class MainView(tk.Tk):
         self.controller = controller
         self.num_cams = self.controller.num_cams
         self.setup()
-        self.setup_panel_control()
+        self.setup_panel_server()
         self.setup_panel_cameras()
             
     def setup(self):
-        self.title("Monitor de Camaras")
-        self.container = Frame(self)
-        self.set_dimension(1400, 550)
+        self.title("CLIENT")
+        self.container = Frame(self, bg=self.controller.settings.get_bg_color())
+        self.set_dimension(900, 520)
         self.container.pack(side='top', fill='both', expand=True)
         
-    def setup_panel_control(self):
-        self.control_panel = ControlPanel(self.container, self.controller, text='Control Panel')
-        self.control_panel.pack(side='top', fill='x', padx=5, pady=5)
+    def setup_panel_server(self):
+        self.server_panel = ServerPanel(self.container, self.controller, text='SERVER')
+        self.server_panel.pack(side='right', fill='both', expand=1, padx=5, pady=5)
     
     def setup_panel_cameras(self):
-        self.panels_cameras = []
-        for i in range(self.num_cams):
-            num_camera = i+1
-            self.panels_cameras.append(FrameCamera(self.container, self.controller,id_camera=i, text=f"Camera { num_camera }"))
-            self.panels_cameras[i].pack(side='left', fill='both', expand=1, padx=5, pady=5)
+        self.monitors = LabelFrame(self.container,
+                                   text="CAMERAS",
+                                   bg=self.controller.settings.get_bg_color())
+
+        mnt1 =  FrameMonitor(self.monitors, self.controller,id_camera=0, text=f"NODE 1")
+        mnt1.pack(side='top', fill='both', expand=1, padx=5, pady=5)
+        
+        mnt2 = FrameMonitor(self.monitors, self.controller, id_camera=1, text= f"NODE 2")
+        mnt2.pack(side='top', fill='both', expand=1, padx=5, pady=5)
+        
+        self.monitors.pack(side='left', fill='x', padx=5, pady=5)
     
     def set_dimension(self, w_width, w_height):
         pos_top = int(self.winfo_screenheight()/2 - w_height/2) 

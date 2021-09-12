@@ -1,25 +1,24 @@
 import tkinter as tk
-from tkinter.ttk import Button, Scrollbar, Combobox
+from tkinter.ttk import Scrollbar, Combobox, Button
 from tkinter import PhotoImage, LabelFrame, Canvas, Listbox, Label
 import PIL.Image, PIL.ImageTk
 
-class FrameCamera(LabelFrame):
+class FrameMonitor(LabelFrame):
     
     def __init__(self, parent, controller, id_camera, text):
-        tk.LabelFrame.__init__(self, parent, text=text)
+        tk.LabelFrame.__init__(self, parent, text=text, 
+                               bg = controller.settings.get_bg_color())
         self.controller = controller
         self.my_id = id_camera
         self.setup_monitor()
-        self.setup_source_video()
-        self.setup_buttons()
-        self.setup_messages_list()
+        # self.setup_source_video()
+        self.setup_controls()
+        # self.setup_messages_list()
         
     def setup_source_video(self):
         frm_source = LabelFrame(self, text="Fuente")
         videos, path = self.controller.get_videos()
-        self.video_source = Combobox(frm_source, 
-                                     state='readonly', 
-                                     values=videos)
+        self.video_source = Combobox(frm_source, state='readonly', values=videos)
         self.video_source.current(0)
         self.video_source.pack(side='top', 
                             #    fill='x', 
@@ -28,27 +27,31 @@ class FrameCamera(LabelFrame):
                         # fill='both', 
                         expand=1, padx=5, pady=5)
     
-    def setup_buttons(self):
-        frm_buttons = LabelFrame(self, text="Controles")
+    def setup_controls(self):
+        frm_buttons = LabelFrame(
+            self, text="Controles", bg=self.controller.settings.get_bg_color())
         self.btn_turn_on = Button(frm_buttons, 
                                 #   image=self.icon_turn_on, 
-                                  compound='left', text='Encender')
+                                  compound='left', text='Encender', width=20)
         self.btn_turn_on.pack(side='left', fill='x', padx=5, pady=5, expand=1)
-        self.btn_turn_off = Button(frm_buttons, 
-                                #    image=self.icon_turn_off, 
-                                   compound='left',text='Apagar',
-                                #    command=self.controller.change_time()
-                                   )
-        self.btn_turn_off.pack(side='left', fill='x',padx=5, pady=5, expand=1)
-        frm_buttons.pack(side='top', fill='both', expand=1, padx=5, pady=5)
+        # self.btn_turn_off = Button(frm_buttons, 
+        #                         #    image=self.icon_turn_off, 
+        #                            compound='left',text='Apagar',
+        #                         #    command=self.controller.change_time()
+        #                            )
+        # self.btn_turn_off.pack(side='left', fill='x',padx=5, pady=5, expand=1)
+        frm_buttons.pack(side='right', 
+                         fill='y', expand=1, 
+                         padx=5, pady=5)
         
     def setup_monitor(self):
         self.status = "Fuera de linea"
         self.message = f"Estado : - {self.status} - "
-        frm_monitor =  LabelFrame(self, text=self.message)
+        frm_monitor = LabelFrame(self, text=self.message, 
+                                 bg=self.controller.settings.get_bg_color())
         self.monitor = Canvas(frm_monitor, width=320,height=180)
         self.monitor.pack(side='top', expand='1', fill='both')
-        frm_monitor.pack(side='top', fill='both', padx='5', pady='5', expand='1')
+        frm_monitor.pack(side='left', fill='x', padx='5', pady='5', expand='1')
         self.update_frame()
     
     def update_frame(self): # Get a frame from the video source
@@ -70,7 +73,7 @@ class FrameCamera(LabelFrame):
         self.messages_list['selectborderwidth'] = 1
         self.messages_list.configure(exportselection=False)
         scroll_bar.config(command=self.messages_list.yview)
-        scroll_bar.pack(side=tk.RIGHT, fill=tk.Y)    
+        scroll_bar.pack(side=tk.RIGHT, fill=tk.Y)
         self.messages_list.pack(expand=1, fill='both', padx=3)
         frm_list.pack(side='top', fill='both', expand=1, padx=5, pady=5)
         # self.messages_list.bind("<<ListboxSelect>>", self.mostrar_indice)

@@ -2,7 +2,7 @@ camera_folder_name: camera
 default_video: empty_video.mp4
 host_address: 127.0.0.1
 
-num_cams: 4
+num_cams: 2
 path_venv:
 - .venv
 - bin
@@ -15,3 +15,7 @@ system_path: /Users/sergiorodrigo/Documents/tesis/code
 server_folder_name: server
 videos_folder_name: videos
 controller_name: controller
+
+color_bg: '#eaecee'
+color_btn_on: '#2ecc71'
+colot_btn_off: '#e74c3c'

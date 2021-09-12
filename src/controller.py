@@ -17,10 +17,7 @@ class Controller:
         self.pid_server = -1
         # self.process_server = None
         
-        self.video_reader = VideoReader(
-            self.settings.get_empty_video(),
-            self.num_cams)
-        
+        self.video_reader = VideoReader(self.settings.get_empty_video(), self.num_cams)
         self.video_reader.start() # to change
     
     def run_server(self):
