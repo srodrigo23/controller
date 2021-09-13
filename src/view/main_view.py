@@ -17,7 +17,7 @@ class MainView(tk.Tk):
     def setup(self):
         self.title("CLIENT")
         self.container = Frame(self, bg=self.controller.settings.get_bg_color())
-        self.set_dimension(850, 520)
+        self.set_dimension(800, 520)
         self.container.pack(side='top', fill='both', expand=True)
         
     def setup_panel_server(self):

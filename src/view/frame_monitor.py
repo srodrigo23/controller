@@ -46,7 +46,7 @@ class FrameMonitor(LabelFrame):
         
         
     def setup_source_video(self):
-        frm_source = LabelFrame(self, text="Fuente", bg=self.controller.settings.get_bg_color())
+        frm_source = LabelFrame(self, text="Source", bg=self.controller.settings.get_bg_color())
         videos, path = self.controller.get_videos()
         self.video_source = Combobox(frm_source, state='readonly', values=videos)
         self.video_source.current(0)
