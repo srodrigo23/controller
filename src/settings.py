@@ -53,8 +53,14 @@ class Settings():
     def get_bg_color(self):
         return self.data['color_bg']
     
-    def get_btn_on_color(self):
-        return self.data['color_btn_on']
+    def get_color_green(self):
+        return self.data['color_green']
     
-    def get_btn_off_color(self):
-        return self.data['color_btn_off']
+    def get_color_red(self):
+        return self.data['color_red']
+    
+    def get_color_lead(self):
+        return self.data['color_lead']
+    
+    def get_color_yellow(self):
+        return self.data['color_yellow']

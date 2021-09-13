@@ -1,6 +1,9 @@
 import tkinter as tk
+import os
+from tkinter import filedialog as fd
 from tkinter.ttk import Scrollbar, Combobox, Button
-from tkinter import PhotoImage, LabelFrame, Canvas, Listbox, Label
+from tkinter.messagebox import showinfo
+from tkinter import PhotoImage, LabelFrame, Canvas, Listbox, Label, Frame
 import PIL.Image, PIL.ImageTk
 
 class FrameMonitor(LabelFrame):
@@ -11,44 +14,71 @@ class FrameMonitor(LabelFrame):
         self.controller = controller
         self.my_id = id_camera
         self.setup_monitor()
-        # self.setup_source_video()
+        self.setup_source_video()
         self.setup_controls()
+        self.notifications()
         # self.setup_messages_list()
+    
+    def notifications(self):
+        lbl_notif = LabelFrame(self, text="Notifications", bg=self.controller.settings.get_bg_color())
+        lbl_notif.pack(side='left', fill='both', expand=1, padx=5, pady=5)
+        
+        lbl_notif.columnconfigure(0, weight=1)
+        lbl_notif.columnconfigure(1, weight=1)
+        
+        lbl_fire = Label(lbl_notif, text='Fire',
+                         bg=self.controller.settings.get_color_red())
+        lbl_fire.grid(row=0, column=0, sticky='ew', padx=2, pady=2)
+        
+        lbl_violence = Label(lbl_notif, text='Violence',
+                             bg=self.controller.settings.get_color_green())
+        # lbl_violence.pack(fill='both')
+        lbl_violence.grid(row=1, column=0, sticky='ew', padx=2, pady=2)
+        
+        lbl_outsider = Label(lbl_notif, text='Outsider',
+                             bg=self.controller.settings.get_color_yellow())
+        lbl_outsider.grid(row=0, column=1, sticky='ew', padx=2, pady=2)
+        
+        lbl_smoke = Label(lbl_notif, text='Smoke',
+                          bg=self.controller.settings.get_color_lead())
+        lbl_smoke.grid(row=1, column=1, sticky='ew', padx=2, pady=2)
+        
+        
         
     def setup_source_video(self):
-        frm_source = LabelFrame(self, text="Fuente")
+        frm_source = LabelFrame(self, text="Fuente", bg=self.controller.settings.get_bg_color())
         videos, path = self.controller.get_videos()
         self.video_source = Combobox(frm_source, state='readonly', values=videos)
         self.video_source.current(0)
-        self.video_source.pack(side='top', 
-                            #    fill='x', 
-                               padx=10)
-        frm_source.pack(side='top', 
-                        # fill='both', 
-                        expand=1, padx=5, pady=5)
+        self.video_source.pack(side='top', fill='x', padx=10)
+        frm_source.pack(side='top', fill='x', expand=0, padx=5, pady=5)
     
     def setup_controls(self):
-        frm_buttons = LabelFrame(
-            self, text="Controles", bg=self.controller.settings.get_bg_color())
-        self.btn_turn_on = Button(frm_buttons, 
-                                #   image=self.icon_turn_on, 
-                                  compound='left', text='Encender', width=20)
-        self.btn_turn_on.pack(side='left', fill='x', padx=5, pady=5, expand=1)
-        # self.btn_turn_off = Button(frm_buttons, 
-        #                         #    image=self.icon_turn_off, 
-        #                            compound='left',text='Apagar',
-        #                         #    command=self.controller.change_time()
-        #                            )
-        # self.btn_turn_off.pack(side='left', fill='x',padx=5, pady=5, expand=1)
-        frm_buttons.pack(side='right', 
-                         fill='y', expand=1, 
-                         padx=5, pady=5)
+        frm_controls = LabelFrame(self, bg=self.controller.settings.get_bg_color())
+        frm_controls.pack(side='top', fill='x', expand=0, padx=5, pady=5)
         
+        self.btn_turn_on = Button(frm_controls, compound='left', text='Launch',
+                                  command=self.launch_open_file)
+        self.btn_turn_on.pack(side='left', fill='x', padx=5, pady=5, expand=1)
+        
+        lbl_frm_pid = LabelFrame(
+            frm_controls, text='PID', bg=self.controller.settings.get_bg_color())
+        lbl_frm_pid.pack(side='left', fill='x', expand=0)
+        
+        lbl_pid = Label(lbl_frm_pid, text='1234',
+                        bg=self.controller.settings.get_bg_color(), font=("Helvetica", 18), fg="Red")
+        lbl_pid.pack(side='left', fill='both', expand=1)
+    
+    
+    def launch_open_file(self):
+        path = os.path.sep.join([self.controller.settings.get_videos_path(), 
+                                 self.video_source.get()])
+        self.controller.launch_camera_process(path)
+    
     def setup_monitor(self):
-        self.status = "Fuera de linea"
-        self.message = f"Estado : - {self.status} - "
-        frm_monitor = LabelFrame(self, text=self.message, 
-                                 bg=self.controller.settings.get_bg_color())
+        self.status = "Offline"
+        self.message = f"Status : - {self.status} - "
+        frm_monitor = LabelFrame(self, text=self.message, bg=self.controller.settings.get_bg_color())
         self.monitor = Canvas(frm_monitor, width=320,height=180)
         self.monitor.pack(side='top', expand='1', fill='both')
         frm_monitor.pack(side='left', fill='x', padx='5', pady='5', expand='1')

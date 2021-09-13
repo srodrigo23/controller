@@ -3,6 +3,7 @@ from settings import Settings
 from video_reader import VideoReader
 
 from launcher import launch_server
+from launcher import launch_camera
 
 import time
 import os, signal
@@ -13,9 +14,6 @@ class Controller:
         self.view = None # to control view
         self.settings = Settings()
         self.num_cams = self.settings.get_num_cams()
-        
-        self.pid_server = -1
-        # self.process_server = None
         
         self.video_reader = VideoReader(self.settings.get_empty_video(), self.num_cams)
         self.video_reader.start() # to change
@@ -33,6 +31,10 @@ class Controller:
         # self.process_server.kill()
         # print(self.process_server.poll)
         
+    def launch_camera_process(self, video_path):
+        sys_path = self.settings.get_system_camera_path()
+        self.process_camera = launch_camera(sys_path, video_path)
+        print(self.process_camera.pid)
     
     def get_frame(self, id_camera):
         return self.video_reader.get_frame_from_queue(id_camera)

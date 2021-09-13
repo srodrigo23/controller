@@ -17,5 +17,8 @@ videos_folder_name: videos
 controller_name: controller
 
 color_bg: '#eaecee'
-color_btn_on: '#2ecc71'
-colot_btn_off: '#e74c3c'
+
+color_green: '#2ecc71'
+color_red: '#e74c3c'
+color_lead: '#85929e'
+color_yellow: '#f1c40f'

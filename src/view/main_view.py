@@ -17,7 +17,7 @@ class MainView(tk.Tk):
     def setup(self):
         self.title("CLIENT")
         self.container = Frame(self, bg=self.controller.settings.get_bg_color())
-        self.set_dimension(900, 520)
+        self.set_dimension(850, 520)
         self.container.pack(side='top', fill='both', expand=True)
         
     def setup_panel_server(self):
@@ -29,10 +29,10 @@ class MainView(tk.Tk):
                                    text="CAMERAS",
                                    bg=self.controller.settings.get_bg_color())
 
-        mnt1 =  FrameMonitor(self.monitors, self.controller,id_camera=0, text=f"NODE 1")
+        mnt1 =  FrameMonitor(self.monitors, self.controller, id_camera=0, text= "NODE 1")
         mnt1.pack(side='top', fill='both', expand=1, padx=5, pady=5)
         
-        mnt2 = FrameMonitor(self.monitors, self.controller, id_camera=1, text= f"NODE 2")
+        mnt2 = FrameMonitor(self.monitors, self.controller, id_camera=1, text= "NODE 2")
         mnt2.pack(side='top', fill='both', expand=1, padx=5, pady=5)
         
         self.monitors.pack(side='left', fill='x', padx=5, pady=5)
