@@ -17,6 +17,8 @@ class FrameMonitor(LabelFrame):
         self.setup_source_video()
         self.setup_controls()
         self.notifications()
+        
+        self.turned_on = False
         # self.setup_messages_list()
     
     def notifications(self):
@@ -44,7 +46,6 @@ class FrameMonitor(LabelFrame):
         lbl_smoke.grid(row=1, column=1, sticky='ew', padx=2, pady=2)
         
         
-        
     def setup_source_video(self):
         frm_source = LabelFrame(self, text="Source", bg=self.controller.settings.get_bg_color())
         videos, path = self.controller.get_videos()
@@ -69,11 +70,23 @@ class FrameMonitor(LabelFrame):
                         bg=self.controller.settings.get_bg_color(), font=("Helvetica", 18), fg="Red")
         lbl_pid.pack(side='left', fill='both', expand=1)
     
+    def action(self):
+        """
+        Method to change status and action of the launch button
+        """
+        if not self.turned.on:
+            pid = self.controller.launch_camera_process(self.video_source.get())
+            if pid:
+                self.turned_on = True
+                self.btn_turn_on['text'] = 'kill'
+                self.change_pid_camera(pid)
     
-    def launch_open_file(self):
-        path = os.path.sep.join([self.controller.settings.get_videos_path(), 
-                                 self.video_source.get()])
-        self.controller.launch_camera_process(path)
+    def change_pid_camera(self, pid):
+        """
+        To change
+        """
+        
+        
     
     def setup_monitor(self):
         self.status = "Offline"

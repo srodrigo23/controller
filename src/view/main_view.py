@@ -11,7 +11,7 @@ class MainView(tk.Tk):
         self.controller = controller
         self.num_cams = self.controller.num_cams
         self.setup()
-        self.setup_panel_server()
+        self.setup_server_panel()
         self.setup_panel_cameras()
             
     def setup(self):
@@ -20,8 +20,9 @@ class MainView(tk.Tk):
         self.set_dimension(800, 520)
         self.container.pack(side='top', fill='both', expand=True)
         
-    def setup_panel_server(self):
-        self.server_panel = ServerPanel(self.container, self.controller, text='SERVER')
+    def setup_server_panel(self):
+        self.server_panel = ServerPanel(
+            self.container, self.controller, text='SERVER')
         self.server_panel.pack(side='right', fill='both', expand=1, padx=5, pady=5)
     
     def setup_panel_cameras(self):

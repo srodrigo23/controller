@@ -50,9 +50,9 @@ class ServerPanel(LabelFrame):
                             bg=self.controller.settings.get_color_green())
         lbl_time.grid(row=2, column=0, sticky='ew', padx=2, pady=2)
         
-        lbl_node_info = Label(lblfrm_info, text='N/A', font=("Helvetica", 15),
+        self.lbl_node_info = Label(lblfrm_info, text='N/A', font=("Helvetica", 15),
                             bg=self.controller.settings.get_color_yellow())
-        lbl_node_info.grid(row=0, column=1, columnspan=2, sticky='ew', padx=2, pady=2)
+        self.lbl_node_info.grid(row=0, column=1, columnspan=2, sticky='ew', padx=2, pady=2)
         
         lbl_clients_info = Label(lblfrm_info, text='N/A', font=("Helvetica", 15),
                             bg=self.controller.settings.get_color_yellow())
@@ -70,22 +70,25 @@ class ServerPanel(LabelFrame):
         lblfrm_launch.columnconfigure(0, weight=1)
         lblfrm_launch.columnconfigure(1, weight=2)
 
-        self.btn_connect_server = Button(lblfrm_launch, text='Connect')
+        self.btn_connect_server = Button(
+            lblfrm_launch, text='Connect', command=lambda: self.controller.connect_to_server())
         self.btn_connect_server.grid(row=0, column=0, columnspan=2, sticky='ew', padx=2, pady=2)
         
         lblfrm_ip = LabelFrame(
             lblfrm_launch, text='IP', bg=self.controller.settings.get_bg_color())
         lblfrm_ip.grid(row=1, column=0, sticky='ew', padx=2, pady=2)
         
-        lbl_ip = Label(lblfrm_ip, text='255.255.255.255', font=("Helvetica", 18),
+        lbl_ip = Label(lblfrm_ip, font=("Helvetica", 18),
                        bg=self.controller.settings.get_bg_color())
+        lbl_ip['text'] = self.controller.settings.get_host_address()
         lbl_ip.pack(expand=0, fill='x')
         
         lblfrm_port = LabelFrame(
             lblfrm_launch, text='PORT', bg=self.controller.settings.get_bg_color())
         lblfrm_port.grid(row=1, column=1, sticky='ew', padx=2, pady=2)
 
-        lbl_port = Label(lblfrm_port, text='6666', font=("Helvetica", 18),bg=self.controller.settings.get_bg_color())
+        lbl_port = Label(lblfrm_port, font=("Helvetica", 18),bg=self.controller.settings.get_bg_color())
+        lbl_port['text'] = self.controller.settings.get_port()
         lbl_port.pack(expand=0, fill='x')    
        
     def set_process_control(self):
@@ -96,27 +99,39 @@ class ServerPanel(LabelFrame):
         lblfrm_pid = LabelFrame(lblfrm_launch, text='PID',
                                 bg=self.controller.settings.get_bg_color())
         lblfrm_pid.pack(side='top', fill='x', expand=0)        
-        lbl_pid = Label(lblfrm_pid, text='1234', bg=self.controller.settings.get_bg_color(), 
+        self.lbl_pid = Label(lblfrm_pid, text='0000', bg=self.controller.settings.get_bg_color(), 
                         font=("Helvetica", 18), fg="Red")
-        lbl_pid.pack(side='left', fill='x')
+        self.lbl_pid.pack(side='left', fill='x')
         
     def action(self):
+        """
+        Method to change status an action of turn on server, without bussines logic
+        """
         if not self.turned_on:
-            self.controller.run_server()
-            self.turned_on = True
-            self.switch_server.configure(text="kill")
+            pid = self.controller.launch_server_process()
+            if pid:
+                self.turned_on = True
+                self.switch_server.configure(text="kill")
+                self.change_pid_server(pid)
         else:
             self.controller.kill_server()
             self.turned_on = False
             self.switch_server.configure(text="Launch")
+            self.change_pid_server('0000')
             
-    def add_buttons(self):
-        self.connect_server = Button(self, text='Connect', width=10)
-        self.connect_server.pack(side='top')
-        
+    
+    def change_pid_server(self, pid):
+        """
+        Change the server process id on the screen
+        """
+        self.lbl_pid['text'] = pid
+    
     def change_time(self):
         self.clock_label.config(text=self.controller.get_time())
         self.clock_label.after(1000, self.change_time)
     
     def set_time(self):
         self.clock_label.config(text=self.get_time())
+
+    def show_error_message(self, title, message):
+        tk.messagebox.showerror(title=title, message=message)
