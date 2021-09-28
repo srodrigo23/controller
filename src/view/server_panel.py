@@ -13,6 +13,7 @@ class ServerPanel(LabelFrame):
         self.set_info_server()
         self.set_messages_loger()
         
+        self.pid = 0
         self.turned_on = False
         
     def set_messages_loger(self):
@@ -108,13 +109,13 @@ class ServerPanel(LabelFrame):
         Method to change status an action of turn on server, without bussines logic
         """
         if not self.turned_on:
-            pid = self.controller.launch_server_process()
-            if pid:
+            self.pid = self.controller.launch_server_process()
+            if self.pid:
                 self.turned_on = True
                 self.switch_server.configure(text="kill")
-                self.change_pid_server(pid)
+                self.change_pid_server(self.pid)
         else:
-            self.controller.kill_server()
+            self.controller.kill_process(self.pid)
             self.turned_on = False
             self.switch_server.configure(text="Launch")
             self.change_pid_server('0000')

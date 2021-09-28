@@ -16,24 +16,24 @@ class Controller:
         self.num_cams = self.settings.get_num_cams()
         self.video_reader = VideoReader(self.settings.get_empty_video(), self.num_cams)
         self.video_reader.start() # to change
-        self.server_process = None
     
-    def kill_server(self):
+    def kill_process(self, pid):
         """
         Method to kill server process turning off the server
         """
-        if self.server_process:
-            os.kill(self.server_process.pid + 1, signal.SIGTERM)
+        os.kill(pid + 1, signal.SIGTERM)
         
-    
     def connect_to_server(self):
+        """
+        Method to connect to server, connecting through sockets
+        """
         if self.server_process:
             pass
         else:
             self.view.server_panel.show_error_message("Error connecting", 
                                                       "Imposible to connect to the server")
     
-    def launch_camera_process(self, video_path):
+    def launch_camera_process(self, video_name):
         """
         Method to run a camera process and return process id to show in the screen
         """
@@ -41,7 +41,7 @@ class Controller:
         videos_folder_path = self.settings.get_videos_path()
         
         self.camera_process = launch_camera(sys_path, 
-                                            os.path.sep.join[videos_folder_path, video_path])
+                                            os.path.join(videos_folder_path, video_name))
         return self.camera_process.pid
     
     def launch_server_process(self):

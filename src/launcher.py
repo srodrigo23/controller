@@ -12,8 +12,4 @@ def launch_server(sys_path):
     cmd = ""
     cmd += f"source .venv/bin/activate; "
     cmd += f"python src/main.py"
-    return subprocess.Popen(cmd, 
-                            shell=True,
-                            # stdout=subprocess.PIPE,
-                            # stderr=subprocess.PIPE,
-                            executable='/bin/bash', start_new_session=True, cwd=sys_path)
+    return subprocess.Popen(cmd, shell=True, executable='/bin/bash', start_new_session=True, cwd=sys_path)

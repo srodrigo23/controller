@@ -18,6 +18,7 @@ class FrameMonitor(LabelFrame):
         self.setup_controls()
         self.notifications()
         
+        self.pid = 0
         self.turned_on = False
         # self.setup_messages_list()
     
@@ -49,43 +50,48 @@ class FrameMonitor(LabelFrame):
     def setup_source_video(self):
         frm_source = LabelFrame(self, text="Source", bg=self.controller.settings.get_bg_color())
         videos, path = self.controller.get_videos()
-        self.video_source = Combobox(frm_source, state='readonly', values=videos)
-        self.video_source.current(0)
-        self.video_source.pack(side='top', fill='x', padx=10)
+        self.cbx_video_source = Combobox(frm_source, state='readonly', values=videos)
+        self.cbx_video_source.current(0)
+        self.cbx_video_source.pack(side='top', fill='x', padx=10)
         frm_source.pack(side='top', fill='x', expand=0, padx=5, pady=5)
     
     def setup_controls(self):
         frm_controls = LabelFrame(self, bg=self.controller.settings.get_bg_color())
         frm_controls.pack(side='top', fill='x', expand=0, padx=5, pady=5)
         
-        self.btn_turn_on = Button(frm_controls, compound='left', text='Launch',
-                                  command=self.launch_open_file)
-        self.btn_turn_on.pack(side='left', fill='x', padx=5, pady=5, expand=1)
+        self.btn_launch = Button(frm_controls, compound='left', text='Launch',
+                                  command=self.action)
+        self.btn_launch.pack(side='left', fill='x', padx=5, pady=5, expand=1)
         
         lbl_frm_pid = LabelFrame(
             frm_controls, text='PID', bg=self.controller.settings.get_bg_color())
         lbl_frm_pid.pack(side='left', fill='x', expand=0)
         
-        lbl_pid = Label(lbl_frm_pid, text='1234',
+        self.lbl_pid = Label(lbl_frm_pid, text='0000',
                         bg=self.controller.settings.get_bg_color(), font=("Helvetica", 18), fg="Red")
-        lbl_pid.pack(side='left', fill='both', expand=1)
+        self.lbl_pid.pack(side='left', fill='both', expand=1)
     
     def action(self):
         """
         Method to change status and action of the launch button
         """
-        if not self.turned.on:
-            pid = self.controller.launch_camera_process(self.video_source.get())
-            if pid:
+        if not self.turned_on:
+            self.pid = self.controller.launch_camera_process(self.cbx_video_source.get())
+            if self.pid:
                 self.turned_on = True
-                self.btn_turn_on['text'] = 'kill'
-                self.change_pid_camera(pid)
+                self.btn_launch['text'] = 'kill'
+                self.change_pid_camera(self.pid)
+        else:
+            self.controller.kill_process(self.pid)
+            self.turned_on = False
+            self.btn_launch['text'] = 'Launch'
+            self.change_pid_camera('0000')
     
     def change_pid_camera(self, pid):
         """
-        To change
+        To change pid camera
         """
-        
+        self.lbl_pid['text'] = pid
         
     
     def setup_monitor(self):
