@@ -7,7 +7,7 @@ from launcher import launch_camera
 
 import time
 import os, signal
-
+import socket 
 class Controller:
     
     def __init__(self):
@@ -16,6 +16,9 @@ class Controller:
         self.num_cams = self.settings.get_num_cams()
         self.video_reader = VideoReader(self.settings.get_empty_video(), self.num_cams)
         self.video_reader.start() # to change
+        self.server_process = None
+        
+        self.server_connected = False
     
     def kill_process(self, pid):
         """
@@ -28,10 +31,20 @@ class Controller:
         Method to connect to server, connecting through sockets
         """
         if self.server_process:
-            pass
+            while not self.server_connected:
+                try:
+                    self.socket = socket.socket(
+                        socket.AF_INET, socket.SOCK_STREAM)
+                    self.socket.connect((self.settings.get_host_address(), self.settings.get_port()))
+                    time.sleep(2.0)
+                except socket.error as e:
+                    print_log('e', f'Connection don\'t reached {str(e)}')
+                else:
+                    self.server_connected = True
+                    print('connected')
+                    # TODO listen messages
         else:
-            self.view.server_panel.show_error_message("Error connecting", 
-                                                      "Imposible to connect to the server")
+            self.view.server_panel.show_error_message("Error connecting", "Imposible to connect to the server")
     
     def launch_camera_process(self, video_name):
         """

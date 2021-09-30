@@ -17,8 +17,7 @@ class ServerPanel(LabelFrame):
         self.turned_on = False
         
     def set_messages_loger(self):
-        lblfrm_info = LabelFrame(self, text="Messages Log",
-                                 bg=self.controller.settings.get_bg_color())
+        lblfrm_info = LabelFrame(self, text="Messages Log", bg=self.controller.settings.get_bg_color())
         lblfrm_info.pack(side='top', fill='both', expand=1, padx=5, pady=5)
         scroll_bar = Scrollbar(lblfrm_info, orient=tk.VERTICAL)
         self.messages_list = Listbox(lblfrm_info, yscrollcommand=scroll_bar.set)
@@ -32,35 +31,28 @@ class ServerPanel(LabelFrame):
         # frm_list.pack(side='top', fill='both', expand=1, padx=5, pady=5)
         
     def set_info_server(self):
-        lblfrm_info = LabelFrame(self, text="Info",
-                                 bg=self.controller.settings.get_bg_color())
+        lblfrm_info = LabelFrame(self, text="Info", bg=self.controller.settings.get_bg_color())
         lblfrm_info.pack(side='top', fill='x', expand=0, padx=5, pady=5)
         lblfrm_info.columnconfigure(0, weight=1)
         lblfrm_info.columnconfigure(1, weight=1)
         lblfrm_info.columnconfigure(2, weight=1)
         
-        lbl_node = Label(lblfrm_info, text='Nodes', font=("Helvetica", 15),
-                         bg=self.controller.settings.get_color_green())
+        lbl_node = Label(lblfrm_info, text='Nodes', font=("Helvetica", 15), bg=self.controller.settings.get_color_green())
         lbl_node.grid(row=0, column=0, sticky='ew', padx=2, pady=2)
         
-        lbl_clients = Label(lblfrm_info, text='Clients', font=("Helvetica", 15),
-                         bg=self.controller.settings.get_color_green())
+        lbl_clients = Label(lblfrm_info, text='Clients', font=("Helvetica", 15), bg=self.controller.settings.get_color_green())
         lbl_clients.grid(row=1, column=0, sticky='ew', padx=2, pady=2)
         
-        lbl_time = Label(lblfrm_info, text='Time', font=("Helvetica", 15),
-                            bg=self.controller.settings.get_color_green())
+        lbl_time = Label(lblfrm_info, text='Time', font=("Helvetica", 15), bg=self.controller.settings.get_color_green())
         lbl_time.grid(row=2, column=0, sticky='ew', padx=2, pady=2)
         
-        self.lbl_node_info = Label(lblfrm_info, text='N/A', font=("Helvetica", 15),
-                            bg=self.controller.settings.get_color_yellow())
+        self.lbl_node_info = Label(lblfrm_info, text='N/A', font=("Helvetica", 15), bg=self.controller.settings.get_color_yellow())
         self.lbl_node_info.grid(row=0, column=1, columnspan=2, sticky='ew', padx=2, pady=2)
         
-        lbl_clients_info = Label(lblfrm_info, text='N/A', font=("Helvetica", 15),
-                            bg=self.controller.settings.get_color_yellow())
+        lbl_clients_info = Label(lblfrm_info, text='N/A', font=("Helvetica", 15), bg=self.controller.settings.get_color_yellow())
         lbl_clients_info.grid(row=1, column=1, columnspan=2, sticky='ew', padx=2, pady=2)
         
-        lbl_clock = Label(lblfrm_info, text='N/A', font=("Helvetica", 15),
-                                 bg=self.controller.settings.get_color_yellow())
+        lbl_clock = Label(lblfrm_info, text='N/A', font=("Helvetica", 15), bg=self.controller.settings.get_color_yellow())
         lbl_clock.grid(row=2, column=1, columnspan=2, sticky='ew', padx=2, pady=2)
         
     def set_server_control(self):

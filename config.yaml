@@ -7,7 +7,7 @@ path_venv:
 - .venv
 - bin
 - activate
-port: 9000
+port: 6666
 
 relative_path: ../..
 
